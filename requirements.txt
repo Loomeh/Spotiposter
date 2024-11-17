@@ -1,0 +1,6 @@
+tweepy==4.14.0
+python-dotenv==1.0.1
+spotipy==2.24.0
+atproto==0.0.55
+pillow==11.0.0
+requests==2.32.3
