@@ -1,7 +1,7 @@
 # Spotiposter
 
-## WARNING
-This program was made as part of a college assignment. As a result, I will likely not review any issues or pull requests (unless I feel like coming back to it in the future for whatever reason).
+> [!NOTE]
+> This program was made as part of a college assignment. As a result, I will likely not review any issues or pull requests (unless I feel like coming back to it in the future for whatever reason).
 
 ## About
 Let your friends know about your awful music taste... \
@@ -11,7 +11,7 @@ Spotiposter is a program that grabs whatever song you're currently listening to 
 ![rsz_new_project](https://github.com/user-attachments/assets/627b2081-4f27-43b8-bd48-c5a94221af4d) ![rsz_673930b76bde1](https://github.com/user-attachments/assets/0d72b0e9-3731-4eba-923b-b6543db342c1)
 
 ## How it works
-The Spotiposter script (`main.py`) first authenticates with the Spotify API, the Twitter API and Bluesky and then opens a socket on port 5000 and waits to receive a `b'\x01'` byte from any client. \
+The Spotiposter script (`main.py`) first authenticates with the Spotify API, the Twitter API and Bluesky and then opens a socket on port `5001` and waits to receive a `b'\x01'` byte from any client. \
 Upon receiving said byte, it grabs the track data from Spotify and uploads it to Twitter and Bluesky (with album cover and alt text attached).
 
 An example script for sending the `b'\x01'` byte is included in the repository as `client.py`.
