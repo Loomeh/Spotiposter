@@ -122,6 +122,8 @@ def main():
                                 # Bluesky upload
                                 bsky_client.send_image(post_text, cover_fp, image_alt=alt_text)
                                 print("Uploaded to Bluesky!")
+
+                                cover_fp.seek(0)
                                 
                                 # Twitter upload
                                 cover = twt_api.media_upload(filename='DUMMY', file=cover_fp)
