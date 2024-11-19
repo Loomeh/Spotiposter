@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from os import getenv
+from os import getenv, path
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import tweepy
@@ -10,8 +10,10 @@ import atproto
 from io import BytesIO, BufferedReader
 from PIL import Image
 
-# Load environment variables
-load_dotenv()
+# Check if .env file exists
+if path.isfile(".env"):
+    load_dotenv()
+    print("Loaded .env file!")
 
 def setup_spotify():
     try:
