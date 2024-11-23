@@ -27,6 +27,7 @@ def setup_spotify():
                 open_browser=False
             )
         )
+        print("Spotify API authentication OK!")
         return sp
     except Exception as e:
         print(f"Error setting up Spotify: {e}")
@@ -42,6 +43,7 @@ def setup_twitter_client():
             access_token_secret=getenv("TWITTER_ACCESS_TOKEN_SECRET"),
             wait_on_rate_limit=True
         )
+        print("Twitter client authentication OK!")
         return twt_client
     except Exception as e:
         print(f"Error setting up Twitter client: {e}")
@@ -52,6 +54,7 @@ def setup_twitter_api():
         auth = tweepy.OAuthHandler(getenv("TWITTER_CONSUMER_KEY"), getenv("TWITTER_CONSUMER_SECRET"))
         auth.set_access_token(getenv("TWITTER_ACCESS_TOKEN"), getenv("TWITTER_ACCESS_TOKEN_SECRET"))
         twitter_api = tweepy.API(auth)
+        print("Twitter API authentication OK!")
         return twitter_api
     except Exception as e:
         print(f"Error setting up Twitter API: {e}")
@@ -61,7 +64,7 @@ def setup_bluesky():
     try:
         bsky_client = atproto.Client()
         bsky_profile = bsky_client.login(getenv('BLUESKY_HANDLE'), getenv('BLUESKY_PASSWORD'))
-        print('Logged into Bluesky as: ', bsky_profile.display_name)
+        print(f'Logged into Bluesky as: {bsky_profile.display_name} ({bsky_profile.handle})')
         return bsky_client
     except Exception as e:
         print(f"Error setting up Bluesky: {e}")
@@ -76,10 +79,13 @@ def main():
     
     # Set up TCP Server
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
-        server_socket.bind(("127.0.0.1", 5001))
+        ip = "192.168.1.64"
+
+        server_socket.bind((ip, 5001))
         server_socket.listen(1)
-        print("Server listening on 127.0.0.1:5001")
+        print(f"Server listening on {ip}:5001")
         
         # Main loop
         while True:
@@ -109,7 +115,7 @@ def main():
                                 con_sec, con_min = convertMillis(int(track_timestamp))
 
                                 post_text = f"Currently playing: '{track_name}' by {artist_name} ({con_min:02d}:{con_sec:02d})\n\n(𝘈𝘶𝘵𝘰𝘮𝘢𝘵𝘦𝘥 𝘗𝘰𝘴𝘵)"
-                                alt_text = f"Album cover for '{album_name}' by {next((artist["name"] for artist in album["artists"]), None)}."
+                                alt_text = f"Album cover for '{album_name}' by {next((artist['name'] for artist in album['artists']), None)}."
 
                                 # Download album cover from Spotify and save into memory
                                 r = requests.get(image_url).content
