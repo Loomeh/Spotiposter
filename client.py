@@ -21,7 +21,6 @@ def connect():
         sleep(1)
     ip = wlan.ifconfig()[0]
     print(f'Connected on {ip}')
-    print(f'Network config: {wlan.ifconfig()}')  # Print full network configuration
     return ip
 
 def send_signal(host, port):
@@ -64,7 +63,7 @@ while True:
         if trigger and not prev_trigger:
             print("\n--- New trigger detected ---")
             pico_led.on()  # Visual indicator
-            send_signal("192.168.1.64", 5001)
+            send_signal(ip, 5001)
             pico_led.off()
             
         prev_trigger = trigger
